@@ -1,0 +1,37 @@
+services:
+  whatsapp-web:
+    image: aldinokemal2104/go-whatsapp-web-multidevice:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000" # Web interface port
+    environment:
+      # Basic configuration
+      - WEBHOOK="" # Optional webhook URL for receiving messages
+      - WEBHOOK_HEADER="" # Optional webhook header
+      - WEBHOOK_SECRET="" # Optional webhook secret
+
+      # Security settings (change these!)
+      - BASIC_AUTH_USERNAME=admin
+      - BASIC_AUTH_PASSWORD=admin123
+
+      # Auto reply settings (optional)
+      - AUTO_REPLY_MESSAGE=""
+      - AUTO_REPLY_WEBHOOK=""
+
+      # Logging
+      - APP_DEBUG=false
+      - APP_TIMEZONE=Asia/Jakarta
+
+    volumes:
+      - ./storages:/app/storages
+      - ./logs:/app/logs
+    networks:
+      - whatsapp-network
+
+networks:
+  whatsapp-network:
+    driver: bridge
+
+volumes:
+  storages:
+  logs:
