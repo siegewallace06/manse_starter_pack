@@ -22,19 +22,25 @@ n8n is a powerful workflow automation tool that lets you connect different servi
 ## Quick Start
 ```bash
 cd docker/n8n
+cp .env.example .env
+# Edit .env file with your desired settings
 docker compose up -d
 ```
 
 ## Configuration
-Before starting, you should modify the environment variables in `docker-compose.yml`:
+Before starting, copy `.env.example` to `.env` and modify the values:
 
-### Essential Changes
+```bash
+cp .env.example .env
+```
+
+### Essential Changes in `.env`
 1. Change `N8N_BASIC_AUTH_USER` and `N8N_BASIC_AUTH_PASSWORD`
 2. Update `WEBHOOK_URL` to your actual domain/IP
 3. Set `GENERIC_TIMEZONE` to your timezone
 
-### Optional Enhancements
-- Enable PostgreSQL for better performance (uncomment postgres service)
+### Optional Enhancements in `.env`
+- Enable PostgreSQL for better performance (uncomment postgres service and update DB settings)
 - Enable Redis for queue management (uncomment redis service)
 - Configure SMTP for email notifications
 - Set up SSL/TLS (change N8N_PROTOCOL to https and N8N_SECURE_COOKIE to true)

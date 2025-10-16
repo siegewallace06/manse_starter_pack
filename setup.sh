@@ -108,6 +108,14 @@ start_docker_services() {
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 print_status "Starting $service..."
                 cd "$DOCKER_DIR/$service"
+                
+                # Check if .env file exists, if not copy from .env.example
+                if [ ! -f ".env" ] && [ -f ".env.example" ]; then
+                    print_warning ".env file not found for $service, copying from .env.example"
+                    cp .env.example .env
+                    print_warning "Please edit .env file and restart the service with your custom settings"
+                fi
+                
                 docker compose up -d
                 print_success "$service started successfully"
             fi

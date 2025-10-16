@@ -25,32 +25,39 @@ A Go-based WhatsApp Web Multi-Device API that allows you to send and receive Wha
 ## Quick Start
 ```bash
 cd docker/gowa
+cp .env.example .env
+# Edit .env file with your desired settings
 docker compose up -d
 ```
 
 ## Initial Setup
-1. Start the service with `docker compose up -d`
-2. Open http://your-server-ip:3000 in your browser
-3. Login with the default credentials
-4. Scan the QR code with your WhatsApp mobile app
-5. Your WhatsApp will be connected and ready to use
+1. Copy the environment file: `cp .env.example .env`
+2. Edit `.env` and change at least the basic auth credentials
+3. Start the service with `docker compose up -d`
+4. Open http://your-server-ip:3000 in your browser
+5. Login with your configured credentials
+6. Scan the QR code with your WhatsApp mobile app
+7. Your WhatsApp will be connected and ready to use
 
 ## Configuration
-Before starting, you should modify the environment variables in `docker-compose.yml`:
+Before starting, copy `.env.example` to `.env` and modify the values:
 
-### Essential Changes
+```bash
+cp .env.example .env
+```
+
+### Essential Changes in `.env`
 1. Change `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`
 2. Set your timezone in `APP_TIMEZONE`
 3. Configure webhook URL if you want to receive message notifications
 4. Set up auto-reply messages if needed
 
-### Webhook Configuration
+### Webhook Configuration in `.env`
 If you want to receive real-time notifications for incoming messages:
-```yaml
-environment:
-  - WEBHOOK=https://your-webhook-url.com/webhook
-  - WEBHOOK_HEADER=Authorization: Bearer your-token
-  - WEBHOOK_SECRET=your-secret-key
+```bash
+WEBHOOK=https://your-webhook-url.com/webhook
+WEBHOOK_HEADER=Authorization: Bearer your-token
+WEBHOOK_SECRET=your-secret-key
 ```
 
 ## API Endpoints
@@ -89,12 +96,11 @@ Full API documentation is available at `/docs` endpoint.
 4. Restrict API access with proper authentication
 5. Monitor logs for suspicious activity
 
-## Auto-Reply Setup
+## Auto-Reply Setup in `.env`
 Configure automatic replies to incoming messages:
-```yaml
-environment:
-  - AUTO_REPLY_MESSAGE="Thank you for your message. We will get back to you soon!"
-  - AUTO_REPLY_WEBHOOK=https://your-webhook-for-auto-reply.com
+```bash
+AUTO_REPLY_MESSAGE=Thank you for your message. We will get back to you soon!
+AUTO_REPLY_WEBHOOK=https://your-webhook-for-auto-reply.com
 ```
 
 ## Backup

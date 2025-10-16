@@ -114,12 +114,22 @@ The `setup.sh` script provides several commands:
 
 ### Environment Variables
 
-Each Docker service can be customized by modifying environment variables in their respective `docker-compose.yml` files:
+Each Docker service uses `.env` files for easy configuration management:
 
-- **Security**: Change default passwords and secret keys
-- **Ports**: Modify exposed ports if needed
-- **Database**: Switch from SQLite to PostgreSQL for better performance
-- **Domain**: Update webhook URLs and hostnames
+1. Copy `.env.example` to `.env` in each service directory
+2. Modify the values in `.env` files according to your needs
+3. Key settings to change:
+   - **Security**: Change default passwords and secret keys
+   - **Ports**: Modify exposed ports if needed  
+   - **Database**: Switch from SQLite to PostgreSQL for better performance
+   - **Domain**: Update webhook URLs and hostnames
+
+Example:
+```bash
+cd docker/nginx-proxy-manager
+cp .env.example .env
+# Edit .env file with your settings
+```
 
 ### Adding New Services
 

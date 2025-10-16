@@ -22,8 +22,22 @@ This setup provides the popular jc21/nginx-proxy-manager with a MySQL database b
 ## Quick Start
 ```bash
 cd docker/nginx-proxy-manager
+cp .env.example .env
+# Edit .env file with your desired settings
 docker compose up -d
 ```
+
+## Configuration
+Before starting, copy `.env.example` to `.env` and modify the values:
+
+```bash
+cp .env.example .env
+```
+
+Key settings to modify in `.env`:
+- **Database passwords**: Change `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, etc.
+- **Database settings**: Modify database name, user if needed
+- **IPv6**: Uncomment `DISABLE_IPV6=true` if IPv6 is not enabled
 
 ## Configuration
 - Data and configurations are stored in `./data`
