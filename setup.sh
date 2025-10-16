@@ -126,18 +126,19 @@ install_basic_tools() {
             print_warning "Please run the script again or manually source your shell configuration."
             install_failed=true
         else
-            if bash "$SCRIPT_DIR/scripts/install-pm2.sh"; then
-                # Check if PM2 installation was successful
-                reload_shell_env
-                if command_exists pm2; then
-                    print_success "PM2 installation completed"
-                else
-                    print_warning "PM2 installation may require manual shell reload"
-                    print_warning "You may need to run: source ~/.bashrc && ./setup.sh install"
-                fi
+            # PM2 installation script may exit with non-zero due to startup command
+            # but PM2 itself might be installed successfully, so let's check
+            set +e  # Temporarily disable exit on error
+            bash "$SCRIPT_DIR/scripts/install-pm2.sh"
+            set -e  # Re-enable exit on error
+            
+            # Check if PM2 installation was successful regardless of script exit code
+            reload_shell_env
+            if command_exists pm2; then
+                print_success "PM2 installation completed"
             else
-                print_error "PM2 installation failed"
-                install_failed=true
+                print_warning "PM2 installation may require manual shell reload"
+                print_warning "You may need to run: source ~/.bashrc && ./setup.sh install"
             fi
         fi
     else

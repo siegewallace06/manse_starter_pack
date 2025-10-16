@@ -32,16 +32,25 @@ pm2 --version
 
 # Set up PM2 startup script
 echo "🔄 Setting up PM2 startup script..."
+# pm2 startup may exit with non-zero code, but that's expected behavior
+set +e  # Temporarily disable exit on error
 startup_output=$(pm2 startup 2>&1)
+startup_exit_code=$?
+set -e  # Re-enable exit on error
+
 echo "$startup_output"
 
-# Extract the sudo command from the output if it exists
-if echo "$startup_output" | grep -q "sudo env PATH"; then
-    echo ""
-    echo "📝 PM2 startup script generated. The command above needs to be run manually with sudo privileges."
-    echo "💡 You can run it later when you're ready to enable PM2 auto-start on boot."
+# Check if PM2 startup was successful (it may exit with non-zero code but still work)
+if [ $startup_exit_code -eq 0 ] || echo "$startup_output" | grep -q "sudo env PATH"; then
+    if echo "$startup_output" | grep -q "sudo env PATH"; then
+        echo ""
+        echo "📝 PM2 startup script generated successfully. The command above needs to be run manually with sudo privileges."
+        echo "💡 You can run it later when you're ready to enable PM2 auto-start on boot."
+    else
+        echo "✅ PM2 startup configuration completed."
+    fi
 else
-    echo "⚠️  PM2 startup configuration completed."
+    echo "⚠️  PM2 startup script generation completed with warnings."
 fi
 
 echo "✅ PM2 installation completed successfully!"
